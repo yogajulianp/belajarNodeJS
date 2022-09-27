@@ -1,0 +1,21 @@
+{
+  "name": "projectm",
+  "version": "1.0.0",
+  "description": "project materi hari pertama",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Bootcampt",
+    "node",
+    "js",
+    "deno"
+  ],
+  "author": "Yoga Julian Prasutiyo",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0"
+  }
+}

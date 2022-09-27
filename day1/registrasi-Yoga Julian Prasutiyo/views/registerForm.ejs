@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/bootstrap.min.css' />
+  </head>
+
+  <body>
+
+    <div class="container">
+      <h1>Form <%= title %></h1>
+    
+      <br>
+      <form method="POST" action="/register">
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" class="form-control" name="nama" id="nama" placeholder="nama user">
+          </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="password">
+          </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Alamat</label>
+          <textarea class="form-control" name="address" id="address" rows="3"></textarea>
+        </div>
+        <p>Gender:</p>
+        <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Women">
+                <label class="form-check-label" for="inlineRadio1">Women</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="Man">
+                <label class="form-check-label" for="inlineRadio2">Man</label>
+              </div>
+        </div>
+        <select class="form-select" aria-label="Default select example" name="job" id="job">
+            <option selected >Select Job</option>
+            <option value="Software Developer">Software Developer</option>
+            <option value="Product Manager">Product Manager</option>
+            <option value="UI/UX">UI/UX</option>
+        </select>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="agree" name="agree" id="agree" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+              I Agree
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kirim</button>
+
+      </form>
+    </div>
+    
+  </body>
+</html>
