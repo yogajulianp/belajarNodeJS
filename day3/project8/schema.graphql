@@ -1,0 +1,19 @@
+type Book {
+    title: String
+    author: String
+  }
+
+  type Product {
+    name : String
+    quantity: Int
+  }
+
+  type Query {
+    books: [Book]
+    products: [Product]
+  }
+
+  type Mutation {
+    jumlah(a: Int, b : Int): Int,
+    kurang(a: Int, b : Int): Int
+  }

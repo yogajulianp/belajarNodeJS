@@ -18,7 +18,6 @@ router.get('/', function(req, res, next) {
 });
   
 router.get('/product', function(req, res, next) {
-  
   res.render('product', { 
     title: 'Daftar Produk',
     products: products,
