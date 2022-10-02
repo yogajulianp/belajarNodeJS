@@ -3,14 +3,14 @@ var router = express.Router();
 
 const db = require('../models');
 const Todo = db.todos;
-const User = db.todos;
+
 const Op = db.Sequelize.Op;
 
-const auth = require('../auth')
+//const auth = require('../auth')
 
 
 //get all
-router.get('/', auth, function(req, res, next) {
+router.get('/', function(req, res, next) {
   Todo.findAll()
   .then(data => {
     res.send(data);
@@ -24,7 +24,7 @@ router.get('/', auth, function(req, res, next) {
 });
 
 //create todo
-router.post('/', auth, function(req, res, next) {
+router.post('/', function(req, res, next) {
   var todo = {
     description: req.body.description
   }

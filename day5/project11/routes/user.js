@@ -1,20 +1,20 @@
 var express = require('express');
 var router = express.Router();
 
+var bcrypt = require('bcryptjs');
 const db = require('../models');
 const User = db.users;
 const Op = db. Sequelize.Op;
 
 
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+
 
 //GET All
 router.get('/', function(res, req, next){
-  User.findAll()
+  User.findAll({
+    attributes: ['name', 'email', 'username']
+  })
   .then(data => {
     res.send(data)
   })
@@ -30,18 +30,31 @@ router.get('/', function(res, req, next){
 //create user
  //add User
  router.post('/register', function(req, res, next) {
-   
+   if (!(req.body.name && 
+        req.body.username &&
+        req.body.email && 
+        req.body.password )) {
+
+            return res.status(400).json({
+              message: "data tidak lengkap, harus diisi semua"
+            })
+    }
    var hashpass = bcrypt.hashSync(req.body.password, 10)
-   var users = {
+   var user = {
      name: req.body.name,
      email: req.body.email,
      username: req.body.username,
      password: hashpass
  
    }
-   User.create(users)
+   User.create(user)
    .then(addUser => {
-     res.send(addUser);
+     res.send({
+      id : addUser.id,
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+     });
    })
    .catch(err => {
      res.json({
@@ -52,46 +65,31 @@ router.get('/', function(res, req, next){
    );
  });
 
- //get detail by id
-router.get('/:id', function(req, res, next) {
-  const id = parseInt(req.params.id);
+ //update 
+router.put('/update', function(req, res, next) {
+  if (!(req.body.name && 
+    req.body.username &&
+    req.body.email  )) {
 
-  User.findByPk(id)
-  .then(dataId => {
-    if(dataId) {
-      res.send(dataId);
-    } else {
-      // http 404 not found
-      res.status(404).send({
-        message: "tidak ada data id=" + id
+      return res.status(400).json({
+        message: "data tidak lengkap"
       })
-    }
-  })
-  .catch(err => {
-    res.json({
-      info: "Error",
-      message: err.message
-    });
-  });
-});
+  }
 
-//update 
-router.put('/:id', function(req, res, next) {
-  const id = req.params.id;
+  var user = {
+    name: req.body.name,
+    email: req.body.email
+  }
 
-  User.update(req.body, {
-    where: { id: id}
+  User.update(user, {
+    where: {username: req.body.username}
   })
   .then(num => {
-    if(num>0) {
-      res.send({message: "data diperbarui"});
-    } else {
-      // http 404 not found
-      res.status(404).send({
-        message: "tidak terdapat data dengan id=" + id
-      })
-    }
-    
+    res.send({
+      name: req.body.name,
+      username: req.body.username,
+      email: req.body.email,
+    })
   })
   .catch(err => {
     res.json({
@@ -100,32 +98,57 @@ router.put('/:id', function(req, res, next) {
     });
   });
 });
+
+ //get detail by id
+// router.get('/:id', function(req, res, next) {
+//   const id = parseInt(req.params.id);
+
+//   User.findByPk(id)
+//   .then(dataId => {
+//     if(dataId) {
+//       res.send(dataId);
+//     } else {
+//       // http 404 not found
+//       res.status(404).send({
+//         message: "tidak ada data id=" + id
+//       })
+//     }
+//   })
+//   .catch(err => {
+//     res.json({
+//       info: "Error",
+//       message: err.message
+//     });
+//   });
+// });
+
+
 
 //delete
-router.delete('/:id', function(req, res, next) {
-  const id = parseId(req.params.id);
+// router.delete('/:id', function(req, res, next) {
+//   const id = parseId(req.params.id);
 
-  User.destroy({
-    where: { id: id}
-  })
-  .then(num => {
-    if(num>0) {
-      res.send({message: "data sudah dihapus"});
-    } else {
-      // http 404 not found
-      res.status(404).send({
-        message: "tidak ada ada id=" + id
-      })
-    }
+//   User.destroy({
+//     where: { id: id}
+//   })
+//   .then(num => {
+//     if(num>0) {
+//       res.send({message: "data sudah dihapus"});
+//     } else {
+//       // http 404 not found
+//       res.status(404).send({
+//         message: "tidak ada ada id=" + id
+//       })
+//     }
     
-  })
-  .catch(err => {
-    res.json({
-      info: "Error",
-      message: err.message
-    });
-  });
-});
+//   })
+//   .catch(err => {
+//     res.json({
+//       info: "Error",
+//       message: err.message
+//     });
+//   });
+// });
 
  
  //login
@@ -153,10 +176,10 @@ router.delete('/:id', function(req, res, next) {
 	});	
 });  
 
-router.get('/logout', function(req, res, next) {
-	req.session.destroy();
-	res.redirect('/login');
-});  
+// router.get('/logout', function(req, res, next) {
+// 	req.session.destroy();
+// 	res.redirect('/login');
+// });  
 
 
 module.exports = router;

@@ -8,7 +8,7 @@ var usersRouter = require('./routes/user');
 var apiRouter = require('./routes/api');
 var calculatorRouter = require('./routes/calculator');
 var todoRouter = require('./routes/todo');
-var userRouter = require('./routes/user');
+
 
 var app = express();
 
@@ -32,7 +32,7 @@ app.use('/users', usersRouter);
 app.use('/api', apiRouter);
 app.use('/calculator', calculatorRouter);
 app.use('/todo', todoRouter);
-app.use('/user', userRouter);
+
 
 
 module.exports = app;

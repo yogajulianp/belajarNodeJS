@@ -14,7 +14,7 @@
 
 // module.exports = auth;
 
-
+/*
 'use strict'; // single instance
 
 const passport = require('passport');
@@ -54,4 +54,4 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done){
         return resizeBy.status(400).send(error.details[0].message)
     });
 
-}));
+})); */
