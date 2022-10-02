@@ -1,23 +1,16 @@
 module.exports = (sequelize, Sequelize) => {
-    const Product = sequelize.define("product", {
+    const Todo = sequelize.define("todo", {
         // id: {
         //     type: DataTypes.INTEGER,
         //     autoIncrement: true,
         //     primaryKey: true
         // },
-        name: {
-			type: Sequelize.STRING
-		},
-		quantity: {
-			type: Sequelize.INTEGER
-		},
-		price: {
-			type: Sequelize.FLOAT
-		}		
-        
+        description: {
+            type: Sequelize.STRING
+        },
         // created: {
         //     type: Sequelize.DATE
         // },
     })
-    return Product
+    return Todo
 }

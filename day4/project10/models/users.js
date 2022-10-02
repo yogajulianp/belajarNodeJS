@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Product = sequelize.define("product", {
+    const Product = sequelize.define("userProduct", {
         // id: {
         //     type: DataTypes.INTEGER,
         //     autoIncrement: true,
@@ -8,11 +8,14 @@ module.exports = (sequelize, Sequelize) => {
         name: {
 			type: Sequelize.STRING
 		},
-		quantity: {
-			type: Sequelize.INTEGER
+		email: {
+			type: Sequelize.STRING
 		},
-		price: {
-			type: Sequelize.FLOAT
+		username: {
+			type: Sequelize.STRING
+		},
+        password: {
+			type: Sequelize.STRING
 		}		
         
         // created: {

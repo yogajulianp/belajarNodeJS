@@ -1,9 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var bcrypt = require('bcryptjs')
+
+
 
 const db = require('../models');
-const Product = db.products;
+const User = db.users;
 const Op = db.Sequelize.Op;
+
 
 //get all product
 router.get('/product', function(req, res, next) {
@@ -60,48 +64,26 @@ router.get('/productdetail', function(req, res, next) {
 });
 
 
-//detail by params
-router.get('/detail/:id', function(req, res, next) {
-  const id = parseInt(req.params.id);
 
-  Product.findByPk(id)
-  .then(data => {
-    if(data) {
-      res.render('productdetail', { 
-        title: 'Daftar Produk',
-        products: data,
-       });
 
-    } else {
-      // http 404 not found
-      res.status(404).send({
-        message: "tidak ada ada id=" + id
-      })
-    }
-  })
-  .catch(err => {
-    res.json({
-      info: "Error",
-      message: err.message
-    });
-  });
+//addUser
+router.get('/register', function(req, res, next) {
+  res.render('registerForm', { title: 'Register' });
 });
 
-//addProduct
-router.get('/addproduct', function(req, res, next) {
-  res.render('addProduct', { title: 'Tambah Product' });
-});
-
-//add products
-router.post('/addproduct', function(req, res, next) {
-  var products = {
+//add User
+router.post('/register', function(req, res, next) {
+  var salt = bcrypt.genSaltSync(10);
+  var users = {
     name: req.body.name,
-    quantity: req.body.quantity,
-    price: req.body.price,
+    email: req.body.email,
+    username: req.body.username,
+    password: bcrypt.hashSync(req.body.password, salt)
+
   }
-  Product.create(products)
+  User.create(users)
   .then(addData => {
-    res.redirect('/product')
+    res.redirect('/login')
    
   })
   .catch(err => {
@@ -137,10 +119,9 @@ router.get('/deleteproduct/:id', function(req, res, next) {
       message: err.message
     });
   });
-
 });
 
-//edit product, ambil dulu datanya
+//edit product
 router.get('/editproduct/:id', function(req, res, next) {
   const id = parseInt(req.params.id);
 
@@ -166,7 +147,6 @@ router.get('/editproduct/:id', function(req, res, next) {
   });
 });
 
-//edit, baru kirim editan barunya
 router.post('/editproduct/:id', function(req, res, next) {
   const id = parseInt(req.params.id);
 

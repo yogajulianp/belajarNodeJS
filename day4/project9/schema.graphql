@@ -1,0 +1,29 @@
+# type Book {
+#     title: String
+#     author: String
+# }
+# type Address {
+# 	name: String
+# 	city: String
+# }
+# type Company {
+# 	name: String
+# 	addresses: [Address]
+# }
+type Product {
+	id: Int
+	name: String
+	quantity: Int
+	price: Float
+	# company: Company
+}
+type Query {
+
+	products: [Product]
+}
+type Mutation {
+	createProduct(name: String, quantity: Int, price: Float): Product,
+	getProduct(id: Int): Product,
+	updateProduct(id: Int, name: String, quantity: Int, price: Float): Product,
+	deleteProduct(id: Int): Product
+}
